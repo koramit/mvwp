@@ -28,3 +28,16 @@ Route::post('/mv-wp', function () {
         'key' => \Illuminate\Support\Facades\Storage::disk('s3')->putFileAs('u', $file, $file->getClientOriginalName())
     ];
 });
+
+Route::post('/migrate-image', function () {
+    if (request()->bearerToken() !== config('app.move_wordplease_token')) {
+        abort(403, 'Unauthorized');
+    }
+
+    $file = request()->file('file');
+    $size = request()->file('size');
+
+    return [
+        'key' => \Illuminate\Support\Facades\Storage::disk('s3')->putFileAs('migrate-images/'.$size, $file, $file->getClientOriginalName())
+    ];
+});
