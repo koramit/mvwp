@@ -35,7 +35,7 @@ Route::post('/migrate-image', function () {
     }
 
     $file = request()->file('file');
-    $size = request()->file('size');
+    $size = request()->input('size');
 
     return [
         'key' => \Illuminate\Support\Facades\Storage::disk('s3')->putFileAs('migrate-images/'.$size, $file, $file->getClientOriginalName())
